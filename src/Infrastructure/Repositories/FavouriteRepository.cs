@@ -12,7 +12,7 @@ public class FavouriteRepository(IDbContextFactory<DataContext> contextFactory) 
         await using var context = await contextFactory.CreateDbContextAsync(cancellationToken);
 
         var server = await context.Servers
-            .Where(x => x.IpAddress == ipAddress && x.Port == port)
+            .Where(x => x.GetIpAddress() == ipAddress && x.Port == port)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
         if (server is null) return false;
         
@@ -28,7 +28,7 @@ public class FavouriteRepository(IDbContextFactory<DataContext> contextFactory) 
         await using var context = await contextFactory.CreateDbContextAsync(cancellationToken);
 
         var server = await context.Servers
-            .Where(x => x.IpAddress == ipAddress && x.Port == port)
+            .Where(x => x.GetIpAddress() == ipAddress && x.Port == port)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
         if (server is null) return;
         

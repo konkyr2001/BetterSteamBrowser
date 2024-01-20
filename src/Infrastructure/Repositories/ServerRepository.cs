@@ -105,7 +105,7 @@ public class ServerRepository(IDbContextFactory<DataContext> contextFactory, ILo
     {
         await using var context = await contextFactory.CreateDbContextAsync(cancellationToken);
 
-        var query = context.Servers.Where(x => x.IpAddress == address);
+        var query = context.Servers.Where(x => x.GetIpAddress() == address);
         if (steamGameId is not SteamGameConstants.AllGames) query = query.Where(x => x.SteamGameId == steamGameId);
         var servers = await query.ToListAsync(cancellationToken: cancellationToken);
         foreach (var server in servers) server.BlockServer();

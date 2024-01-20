@@ -5,19 +5,19 @@ namespace BetterSteamBrowser.Domain.Entities;
 
 public class EFServer
 {
-    [Key] public string Hash { get; set; }
+    [Key] public string? Hash { get; set; }
 
     /// <summary>
     /// The IP Address. Excludes the port.
     /// </summary>
-    public string IpAddress { get; set; }
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// The Port number.
     /// </summary>
     public int Port { get; set; }
 
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Current number of players on the server.
@@ -40,13 +40,13 @@ public class EFServer
 
     public string? Country { get; set; }
     public string? CountryCode { get; set; }
-    public string Map { get; set; }
+    public string? Map { get; set; }
     public DateTimeOffset LastUpdated { get; set; }
     public DateTimeOffset Created { get; set; }
     public bool Blocked { get; set; }
 
     public int SteamGameId { get; set; }
-    [ForeignKey(nameof(SteamGameId))] public EFSteamGame SteamGame { get; set; }
+    [ForeignKey(nameof(SteamGameId))] public EFSteamGame? SteamGame { get; set; }
 
     /// <summary>
     /// Navigation property for the server snapshots.
@@ -66,7 +66,9 @@ public class EFServer
             : 0;
         PlayerUpperBound = !PlayerUpperBound.HasValue ? Players : Players > PlayerUpperBound ? Players : PlayerUpperBound;
         PlayerLowerBound = !PlayerLowerBound.HasValue ? Players : Players < PlayerLowerBound ? Players : PlayerLowerBound;
+#pragma warning disable CS8601 // Possible null reference assignment.
         Snapshots = [new EFServerSnapshot {ServerHash = Hash, PlayerCount = Players, Taken = DateTimeOffset.UtcNow}];
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     public void BlockServer()

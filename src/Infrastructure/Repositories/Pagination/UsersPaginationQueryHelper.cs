@@ -77,8 +77,8 @@ public class UsersPaginationQueryHelper(IDbContextFactory<DataContext> contextFa
             .ToListAsync(cancellationToken: cancellationToken);
 
         var favouriteCounts = await context.Favourites
-            .Where(fav => userIds.Contains(fav.UserId))
-            .GroupBy(fav => fav.UserId)
+            .Where(fav => userIds.Contains(fav.GetUserId()))
+            .GroupBy(fav => fav.GetUserId())
             .Select(group => new {UserId = group.Key, Count = group.Count()})
             .ToDictionaryAsync(fav => fav.UserId, fav => fav.Count, cancellationToken);
         return favouriteCounts;

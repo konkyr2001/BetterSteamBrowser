@@ -19,7 +19,7 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
         modelBuilder.Entity<EFServer>(entity =>
         {
             entity.ToTable("EFServers");
-            entity.HasIndex(e => e.IpAddress);
+            entity.HasIndex(e => e.GetIpAddress());
             entity.HasIndex(e => e.Map);
             entity.HasIndex(e => e.Name);
         });
